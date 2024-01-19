@@ -1,0 +1,341 @@
+<!-- 数字卦起卦器 -->
+<!-- 单html界面，连接文件内css、js -->
+
+<!-- html部分 -->
+<!DOCTYPE html>
+<head>
+	<meta charset="UTF-8" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+		name="viewport">
+	<title>数字卦起卦器</title>
+
+	<!-- CSS样式 -->
+	<style type="text/css">
+		/* panel共通 */
+		.panel {
+			width: 100vw;
+			padding: 5px;
+		}
+
+		/* 第一panel */
+		#panel-1 {
+			background-color: aliceblue;
+		}
+
+		/* 隐藏数字输入框上下箭头 */
+		/* google、safari */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+			-webkit-appearance: none !important;
+			margin: 0;
+		}
+		/* 火狐 */
+		input[type="number"] {
+			-moz-appearance: textfield;
+		}
+
+		/* 第二panel */
+		#panel-2 {
+			margin: 5px 0;
+		}
+
+		#panel-2 #mov-hem {
+			background-color: lightpink;
+		}
+
+		#panel-2 #upper {
+			background-color: azure;
+		}
+
+		#panel-2 #beneath {
+			background-color: beige;
+		}
+
+		/* 第三panel */
+		/* 画卦图 */
+		table {
+			display: none;
+		}
+
+		.left {
+			background-color: black;
+		}
+
+		.right {
+			background-color: black;
+		}
+
+		/* 显示文字信息 */
+		#panel-3 {
+			display: flex;
+		}
+
+		#result {
+			width: 50%
+		}
+
+		#convert {
+			width: 50%
+		}
+
+		.title {
+			width: 100%;
+			background-color: bisque;
+		}
+
+		.no {
+			width: 100%;
+			background-color: antiquewhite;
+		}
+
+		.name-link {
+			width: 100%;
+			background-color: lavenderblush;
+		}
+
+		.main-yao {
+			width: 100%;
+			background-color: lightskyblue;
+		}
+	</style>
+
+</head>
+<body>
+	<!-- 第一panel，用于输入＼提交＼清空表单 -->
+	<div class="panel" id="panel-1">
+		<!-- 动爻 -->
+		<div>
+			<label for="mov-hem">③动爻</label>
+			<input id="mov-hem" type="number"
+				oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1').slice(0, 3);" />
+		</div>
+		<!-- 外卦 -->
+		<div>
+			<label for="upper">②外卦</label>
+			<input id="upper" type="number"
+				oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1').slice(0, 3);" />
+		</div>
+		<!-- 内卦 -->
+		<div>
+			<label for="upper">①内卦</label>
+			<input id="beneath" type="number"
+				oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1').slice(0, 3);" />
+		</div>
+		<!-- 按钮 -->
+		<button class="submit" type="submit" onclick="submitForm()">提交</button>
+		<button class="reset" type="reset" onclick="clearForm()">清空</button>
+	</div>
+
+	<!-- 第二panel，用于显示算数结果 -->
+	<div class="panel" id="panel-2">
+		<div id="mov-hem"></div>
+		<div id="upper"></div>
+		<div id="beneath"></div>
+	</div>
+
+	<!-- 第三panel，用于显示结果卦＼变卦＼动爻＼卦序＼卦名\主爻 -->
+	<div class="panel" id="panel-3">
+		<!-- 第一列:结果卦图,卦序,卦名(连接),主爻,动爻 -->
+		<div id="result">
+			<div class="title">本卦</div>
+			<!-- 图 -->
+			<table>
+				<tr class="yao6">
+					<td class="left"></td>
+					<td class="mid"></td>
+					<td class="right"></td>
+				</tr>
+				<tr class="yao5">
+					<td class="left"></td>
+					<td class="mid"></td>
+					<td class="right"></td>
+				</tr>
+				<tr class="yao4">
+					<td class="left"></td>
+					<td class="mid"></td>
+					<td class="right"></td>
+				</tr>
+				<tr class="yao3">
+					<td class="left"></td>
+					<td class="mid"></td>
+					<td class="right"></td>
+				</tr>
+				<tr class="yao2">
+					<td class="left"></td>
+					<td class="mid"></td>
+					<td class="right"></td>
+				</tr>
+				<tr class="yao1">
+					<td class="left"></td>
+					<td class="mid"></td>
+					<td class="right"></td>
+				</tr>
+			</table>
+			<!-- 卦序\卦名 -->
+			<div class="no"></div>
+			<div class="name-link"></div>
+			<!-- 主爻\动爻 -->
+			<div class="main-yao"></div>
+			<div class="mov-yao"></div>
+		</div>
+		<!-- 第二列:变卦,卦序,卦名(连接),主爻 -->
+		<div id="convert">
+			<div class="title">变卦</div>
+			<!-- 图 -->
+			<table>
+				<tr class="yao6">
+					<td class="left"></td>
+					<td class="mid"></td>
+					<td class="right"></td>
+				</tr>
+				<tr class="yao5">
+					<td class="left"></td>
+					<td class="mid"></td>
+					<td class="right"></td>
+				</tr>
+				<tr class="yao4">
+					<td class="left"></td>
+					<td class="mid"></td>
+					<td class="right"></td>
+				</tr>
+				<tr class="yao3">
+					<td class="left"></td>
+					<td class="mid"></td>
+					<td class="right"></td>
+				</tr>
+				<tr class="yao2">
+					<td class="left"></td>
+					<td class="mid"></td>
+					<td class="right"></td>
+				</tr>
+				<tr class="yao1">
+					<td class="left"></td>
+					<td class="mid"></td>
+					<td class="right"></td>
+				</tr>
+			</table>
+			<!-- 卦序\卦名 -->
+			<div class="no"></div>
+			<div class="name-link"></div>
+			<!-- 主爻 -->
+			<div class="main-yao"></div>
+		</div>
+	</div>
+
+	<!-- JS逻辑 -->
+	<script type="text/javascript">
+		// 六十四卦表.行:下卦,列:上卦
+		var name64 = [
+			["乾", "夬", "大有", "大壮", "小畜", "需", "大畜", "泰"],
+			["履", "兑", "睽", "归妹", "中孚", "节", "损", "临"],
+			["同人", "革", "离", "丰", "家人", "既济", "贲", "明夷"],
+			["无妄", "随", "噬嗑", "震", "益", "屯", "颐", "复"],
+			["姤", "大过", "鼎", "恒", "巽", "井", "蛊", "升"],
+			["讼", "困", "未济", "解", "涣", "坎", "蒙", "师"],
+			["遁", "咸", "旅", "小过", "渐", "蹇", "艮", "谦"],
+			["否", "萃", "晋", "豫", "观", "比", "剥", "坤"]
+		]
+		// 卦序
+		var no64 = [
+			[1, 43, 14, 34, 9, 5, 26, 11],
+			[10, 58, 38, 54, 61, 60, 41, 19],
+			[13, 49, 30, 55, 37, 63, 22, 36],
+			[25, 17, 21, 51, 42, 3, 27, 24],
+			[44, 28, 50, 32, 57, 48, 18, 46],
+			[6, 47, 64, 40, 59, 29, 4, 7],
+			[33, 31, 56, 62, 53, 39, 52, 15],
+			[12, 45, 35, 16, 20, 8, 23, 2]
+		]
+
+		// 提交表单
+		function submitForm() {
+			console.log("提交成功")
+			//  读入变量
+			var movHem = document.getElementById("mov-hem").value
+			var upper1 = document.getElementById("upper").value
+			var beneath1 = document.getElementById("beneath").value
+			// 画面输入cheak
+			if ((100 <= movHem && movHem <= 999) &&
+				(100 <= upper1 && upper1 <= 999) &&
+				(100 <= beneath1 && beneath1 <= 999)) {
+				// cheak通过
+				console.log("输入正确")
+				// 计算
+				// 取Mod
+				movHem = movHem % 6
+				upper1 = upper1 % 8
+				beneath1 = beneath1 % 8
+				// Mod==0时
+				if (movHem == 0) {
+					movHem = 6
+				}
+				if (upper1 == 0) {
+					upper1 = 8
+				}
+				if (beneath1 == 0) {
+					beneath1 = 8
+				}
+				// 对应到卦表index
+				upper1 -= 1
+				beneath1 -= 1
+
+				// 查询卦表
+				var res1Name = name64[beneath1][upper1]
+				var res1No = no64[beneath1][upper1]
+
+				// -------------------------------------------------------
+				// 变卦
+				var binHem = [0b111, 0b011, 0b101, 0b001, 0b110, 0b010, 0b100, 0b000] // 单卦对应二进制:乾(111),兑(011),坤(000)
+				var res1 = (binHem[upper1] << 3) | binHem[beneath1] // 本卦
+				movHem -= 1 // 动爻
+				var movHemMask = 1 << movHem
+				var res2 = res1 ^ movHemMask // 变卦
+				var upper2 = binHem.indexOf(res2 >> 3)
+				var beneath2 = binHem.indexOf(res2 & 0b111)
+				// 查询卦表
+				var res2Name = name64[beneath2][upper2]
+				var res2No = no64[beneath2][upper2]
+
+				// 显示结果日志
+				console.log(res1, res1No, res1Name)
+				console.log(res2, res2No, res2Name)
+				// ---------------------------------------------------------
+
+
+				// 显示结果
+				// 第二panel
+				var single = ["乾", "兑", "离", "震", "巽", "坎", "艮", "坤"]
+				document.querySelector("#panel-2 #mov-hem").innerHTML = "动爻:" + (movHem + 1)
+				document.querySelector("#panel-2 #upper").innerHTML = "外卦: " + (upper1 + 1) + "  " + single[upper1]
+				document.querySelector("#panel-2 #beneath").innerHTML = "内卦: " + (beneath1 + 1) + "  " + single[beneath1]
+
+				// 第三panel 卦名链接
+				var uriBase = "https://zh.wikisource.org/wiki/周易/"
+
+				// 第三panel left
+				document.querySelector("#result .no").innerHTML = "序: " + res1No
+				document.querySelector("#result .name-link").innerHTML = '<a href="' + uriBase + res1Name + '">' + res1Name +
+					'</a>'
+
+				// 第三panel right
+				document.querySelector("#convert .no").innerHTML = "序: " + res2No
+				document.querySelector("#convert .name-link").innerHTML = '<a href="' + uriBase + res2Name + '">' + res2Name +
+					'</a>'
+
+			} else {
+				// 隐藏第二panel
+				// document.querySelector("#panel-2").style.display = "none"
+
+				window.alert("请输入三个三位数")
+			}
+		}
+
+		// 清空表单
+		function clearForm() {
+			console.log("清空")
+			document.getElementById("mov-hem").value = ""
+			document.getElementById("upper").value = ""
+			document.getElementById("beneath").value = ""
+		}
+	</script>
+</body>
+</html>
