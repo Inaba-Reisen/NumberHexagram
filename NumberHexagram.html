@@ -132,7 +132,7 @@
 		<div id="beneath"></div>
 	</div>
 
-	<!-- 第三panel，用于显示结果卦＼变卦＼动爻＼卦序＼卦名\主爻 -->
+	<!-- 第三panel，用于显示结果卦＼之卦＼动爻＼卦序＼卦名\主爻 -->
 	<div class="panel" id="panel-3">
 		<!-- 第一列:结果卦图,卦序,卦名(连接),主爻,动爻 -->
 		<div id="result">
@@ -177,9 +177,9 @@
 			<div class="main-yao"></div>
 			<div class="mov-yao"></div>
 		</div>
-		<!-- 第二列:变卦,卦序,卦名(连接),主爻 -->
+		<!-- 第二列:之卦,卦序,卦名(连接),主爻 -->
 		<div id="convert">
-			<div class="title">变卦</div>
+			<div class="title">之卦</div>
 			<!-- 图 -->
 			<table>
 				<tr class="yao6">
@@ -288,7 +288,7 @@
 				var res1 = (binHem[upper1] << 3) | binHem[beneath1] // 本卦
 				movHem -= 1 // 动爻
 				var movHemMask = 1 << movHem
-				var res2 = res1 ^ movHemMask // 变卦
+				var res2 = res1 ^ movHemMask // 之卦
 				var upper2 = binHem.indexOf(res2 >> 3)
 				var beneath2 = binHem.indexOf(res2 & 0b111)
 				// 查询卦表
